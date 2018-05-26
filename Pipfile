@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+verify_ssl = false
+name = "tuna"
+
+[packages]
+django = "*"
+djangorestframework = "*"
+django-filter = "*"
+markdown = "*"
+
+[dev-packages]
+pylint = "*"
+pep8 = "*"
+autopep8 = "*"
+
+[requires]
+python_version = "3.6"
