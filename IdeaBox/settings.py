@@ -30,6 +30,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# 自定义用户模型
+AUTH_USER_MODEL = 'user_center.User'
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,6 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'django_filters',
+    'user_center',
+    'ideas',
 ]
 
 MIDDLEWARE = [
@@ -73,10 +80,22 @@ WSGI_APPLICATION = 'IdeaBox.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+MYSQL_URI = os.getenv('MYSQL_URI', 'mysql://root:root@127.0.0.1:3306/ideabox')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': MYSQL_URI.split(':')[-2].split('@')[-1],
+        'NAME': MYSQL_URI.split('/')[-1],
+        'USER': MYSQL_URI.split('//')[-1].split(':')[0],
+        'PASSWORD': MYSQL_URI.split('@')[0].split(':')[-1],
+        'OPTIONS': {
+            "init_command": "SET foreign_key_checks = 0;",
+        },
+        'TEST': {
+            'NAME': 'test_ideabox',
+            'CHARSET': 'utf8',
+            'COLLATION': 'utf8_general_ci',
+        },
     }
 }
 
